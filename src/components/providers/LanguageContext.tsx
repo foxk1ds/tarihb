@@ -1,30 +1,38 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { getDictionary, type Dictionary, type Language } from "@/lib/utils";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { getDictionary, type Language } from "@/lib/utils";
 
 type LanguageContextValue = {
   language: Language;
+  dictionary: ReturnType<typeof getDictionary>;
   setLanguage: (language: Language) => void;
-  dictionary: Dictionary;
 };
 
-const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
+const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("kk");
+export function LanguageProvider({
+  children,
+  initialLanguage = "kk"
+}: {
+  children: ReactNode;
+  initialLanguage?: Language;
+}) {
+  const [language, setLanguageState] = useState<Language>(initialLanguage);
 
   useEffect(() => {
-    const stored = window.localStorage.getItem("site-language");
-    if (stored === "kk" || stored === "ru") setLanguageState(stored);
+    document.documentElement.lang = language;
+  }, [language]);
+
+  const setLanguage = useCallback((next: Language) => {
+    setLanguageState(next);
+    document.cookie = `tarihb-language=${next}; path=/; max-age=31536000; samesite=lax`;
   }, []);
 
-  const setLanguage = (nextLanguage: Language) => {
-    window.localStorage.setItem("site-language", nextLanguage);
-    setLanguageState(nextLanguage);
-  };
-
-  const value = useMemo(() => ({ language, setLanguage, dictionary: getDictionary(language) }), [language]);
+  const value = useMemo(
+    () => ({ language, dictionary: getDictionary(language), setLanguage }),
+    [language, setLanguage]
+  );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
