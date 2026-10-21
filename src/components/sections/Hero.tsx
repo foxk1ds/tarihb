@@ -1,0 +1,10 @@
+"use client";
+
+import Link from "next/link";
+import { useLanguage } from "@/components/providers/LanguageContext";
+
+export function Hero() {
+  const { dictionary } = useLanguage();
+  const { hero } = dictionary;
+  return <section className="relative overflow-hidden bg-zinc-950 text-white"><div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(217,119,6,.23),transparent_25rem),linear-gradient(135deg,rgba(159,46,49,.16),transparent_45%)]" /><div className="relative mx-auto grid min-h-[70vh] max-w-6xl items-center gap-10 px-5 py-20 lg:grid-cols-[1.15fr_.85fr]"><div><p className="inline-flex rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[.17em] text-amber-300">{hero.eyebrow}</p><h1 className="mt-7 max-w-4xl text-4xl font-black leading-[1.05] tracking-tight sm:text-6xl">{hero.title}</h1><p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-300">{hero.summary}</p><div className="mt-9 border-l-4 border-crimson pl-5"><p className="text-xl font-semibold leading-snug sm:text-2xl">{hero.question}</p></div><div className="mt-10 flex flex-wrap gap-3"><Link href="/glossary" className="rounded-lg bg-amber-400 px-5 py-3 font-bold text-zinc-950 transition hover:bg-amber-300">{hero.primaryCta} →</Link><Link href="/polygon" className="rounded-lg border border-zinc-600 px-5 py-3 font-semibold text-zinc-100 transition hover:border-amber-400 hover:text-amber-300">{hero.secondaryCta}</Link></div></div><div className="rounded-3xl border border-amber-400/25 bg-zinc-900/75 p-8 shadow-2xl backdrop-blur"><p className="text-sm font-bold uppercase tracking-[.2em] text-amber-300">{dictionary.polygon.period}</p><p className="mt-8 text-7xl font-black text-white">{dictionary.polygon.stat}</p><p className="mt-1 text-xl font-semibold text-zinc-300">{dictionary.polygon.statLabel}</p><div className="my-8 h-px bg-gradient-to-r from-amber-400 to-transparent" /><p className="text-sm leading-relaxed text-zinc-400">{dictionary.polygon.lead}</p></div></div></section>;
+}

@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-height: 100vh; background: #f7f5f1; color: #27272a; }
+::selection { background: #fbbf24; color: #18181b; }
+.document-grid { background-image: linear-gradient(rgb(161 98 7 / .06) 1px, transparent 1px), linear-gradient(90deg, rgb(161 98 7 / .06) 1px, transparent 1px); background-size: 34px 34px; }
